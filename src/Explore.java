@@ -1,12 +1,13 @@
+import lejos.nxt.Motor;
 import lejos.robotics.subsumption.Behavior;
 
 public class Explore implements Behavior {
-	int middleDistanceStep = 200;
-	int middleDistanceTotal = 0; // Might need to declare in "Squirrel" as might reset each time behaviour run
-	int branchDistance = 0; // Might need to declare in "Squirrel" as might reset each time behaviour run
+	static int middleDistanceStep = 200;
+	static int middleDistanceTotal = 0; // Might need to declare in "Squirrel" as might reset each time behaviour run
+	static int branchDistance = 0; // Might need to declare in "Squirrel" as might reset each time behaviour run
 	
 	public boolean takeControl() {
-		
+		return true;
 	}
 	
 	public void action() {
@@ -17,13 +18,17 @@ public class Explore implements Behavior {
 			
 			Squirrel.pilot.rotate(-90);
 			
-			if (Squirrel.us.getDistance() != 255) {
+			if (Squirrel.us.getDistance() < middleDistanceStep) {
 				investigate();
+				
+				break;
 			} else {
 				Squirrel.pilot.rotate(180);
 				
-				if (Squirrel.us.getDistance() != 255) {
+				if (Squirrel.us.getDistance() < middleDistanceStep) {
 					investigate();
+					
+					break;
 				} else {
 					Squirrel.pilot.rotate(-90);
 				}
@@ -32,10 +37,14 @@ public class Explore implements Behavior {
 	}
 	
 	private void investigate() {
-		// Investigate... Reset tacho and start tracking
+		Motor.A.resetTachoCount();
+		
+		branchDistance = 0;
+		
+		Squirrel.pilot.forward();
 	}
 
 	public void suppress() {
-		
+		Squirrel.pilot.stop();
 	}
 }
