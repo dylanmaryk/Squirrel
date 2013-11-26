@@ -2,33 +2,39 @@ import lejos.nxt.Motor;
 import lejos.robotics.subsumption.Behavior;
 
 public class Detect implements Behavior {
-	static int rotateAmount = 70;
-	
-	public boolean takeControl() {
-		if (Squirrel.us.getDistance() < 20)
+	public boolean takeControl() { // Set locatedBall to false near end of action method
+		// If sees something nearby
+		if (Squirrel.locatedBall)
 			return true;
 		else
 			return false;
 	}
 	
 	public void action() {
-		Motor.C.rotate(-rotateAmount);
+		// Close gripper
+		Motor.C.rotate(-Squirrel.rotateAmount);
 		
+		// Wait 3 seconds
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
-		if (Squirrel.ls.readValue() < 51) {
-			Motor.C.rotate(rotateAmount);
+		// If ball is not red
+		if (Squirrel.ls.readValue() < 46) {
+			// Let go of ball
+			Motor.C.rotate(Squirrel.rotateAmount);
 			
 			Squirrel.hasBall = false;
 			Squirrel.returnToExplore = true;
 		} else {
 			Squirrel.hasBall = true;
 			Squirrel.returnToExplore = false;
+			Squirrel.returnHome = true;
 		}
+		
+		Squirrel.locatedBall = false;
 	}
 	
 	public void suppress() {
