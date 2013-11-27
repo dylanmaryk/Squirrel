@@ -32,6 +32,7 @@ public class Detect implements Behavior {
 			Squirrel.hasBall = true;
 			Squirrel.returnToExplore = false;
 			Squirrel.returnHome = true;
+			Squirrel.searching = false;
 		}
 		
 		Squirrel.locatedBall = false;

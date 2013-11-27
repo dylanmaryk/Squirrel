@@ -2,76 +2,56 @@ import lejos.nxt.Motor;
 import lejos.robotics.subsumption.Behavior;
 
 public class Explore implements Behavior {
-	static int middleDistanceStep = 200;
-	static int distanceToTravel = 20;
-	static int distanceToGrab = 10;
-	
 	public boolean takeControl() {
 		return true;
 	}
 	
 	public void action() {
-		// while (true) {
-			// If need to keep looking for red ball
-			if (Squirrel.returnToExplore) {
-				returnToExplore();
-			}
-			
-			// If not found red ball
-			if (!Squirrel.hasBall) {
-				// Travel further down central branch
-				Squirrel.pilot.travel(middleDistanceStep);
-				
-				Squirrel.middleDistanceTotal = Squirrel.middleDistanceTotal + middleDistanceStep;
-				
-				// Turn left
-				Squirrel.pilot.rotate(-90);
-				
-				Squirrel.turnedLeft = true;
-				
-				// If sees something nearby
-				if (Squirrel.us.getDistance() < middleDistanceStep) {
-					investigate();
-					
-					// break;
-				} else {
-					checkRight();
-				}
-			}
-		// }
-	}
-	
-	private void checkRight() {
-		// Turn right
-		Squirrel.pilot.rotate(180);
+		// If need to keep looking for red ball
+		if (Squirrel.returnToExplore) {
+			returnToExplore();
+		}
 		
-		Squirrel.turnedLeft = false;
-		
-		// If sees something nearby
-		if (Squirrel.us.getDistance() < middleDistanceStep) {
-			investigate();
+		// If not found red ball
+		if (!Squirrel.hasBall) {
+			// Travel further down central branch
+			Squirrel.pilot.travel(Squirrel.middleDistanceStep);
 			
-			// break;
-		} else {
+			Squirrel.middleDistanceTotal = Squirrel.middleDistanceTotal + Squirrel.middleDistanceStep;
+			
+			Squirrel.pilot.reset();
 			// Turn left
 			Squirrel.pilot.rotate(-90);
+			
+			Squirrel.turnedLeft = true;
+			
+			checkRight();
 		}
 	}
 	
-	private void investigate() {
-		// Reset recorded distance travelled
-		Motor.A.resetTachoCount();
+	public static void checkRight() {
+		Squirrel.pilot.reset();
+		// Turn right
+		Squirrel.pilot.rotate(90);
 		
+		Squirrel.turnedLeft = false;
+		
+		Squirrel.pilot.reset();
+		Squirrel.pilot.rotate(-90);
+	}
+	
+	public static void investigate() {
 		Squirrel.branchDistance = 0;
+		Squirrel.tachoRotated = Motor.A.getTachoCount();
 		
-		for (int i = 0; i < middleDistanceStep / distanceToTravel; i++) {
+		for (int i = 0; i < Squirrel.middleDistanceStep / Squirrel.distanceToTravel; i++) {
 			// Go forwards in increments
-			Squirrel.pilot.travel(distanceToTravel);
+			Squirrel.pilot.travel(Squirrel.distanceToTravel);
 			
-			Squirrel.branchDistance = Squirrel.branchDistance + distanceToTravel;
+			Squirrel.branchDistance = Squirrel.branchDistance + Squirrel.distanceToTravel;
 			
 			// If sees something close
-			if (Squirrel.us.getDistance() <= distanceToGrab) {
+			if (Squirrel.us.getDistance() <= Squirrel.distanceToGrab) {
 				Squirrel.locatedBall = true;
 				
 				break;
@@ -82,21 +62,18 @@ public class Explore implements Behavior {
 		// If hasn't found red ball
 		if (!Squirrel.locatedBall)
 			Squirrel.returnToExplore = true;
-		
-		// If had turned right
-		if (!Squirrel.turnedLeft)
-			returnToExplore();
 	}
 	
-	void returnToExplore() {
+	public static void returnToExplore() {
 		// Go back distance of branch
 		Squirrel.pilot.travel(-Squirrel.branchDistance);
 		
-		// Turn left/right depending on direction turned earlier
+		Motor.A.rotate(-Squirrel.tachoRotated, true);
+		Motor.B.rotate(Squirrel.tachoRotated, true);
+		
+		// If had turned left
 		if (Squirrel.turnedLeft)
 			checkRight();
-		else
-			Squirrel.pilot.rotate(-90);
 		
 		Squirrel.returnToExplore = false;
 	}
