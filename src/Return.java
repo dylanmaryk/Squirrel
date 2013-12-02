@@ -10,19 +10,10 @@ public class Return implements Behavior {
 	}
 	
 	public void action() {
-		// Turn around and go back to main branch
-		Squirrel.pilot.rotate(180);
-		Squirrel.pilot.travel(Squirrel.branchDistance);
+		Explore.returnToMainPath();
 		
-		// Turn left/right depending on direction turned earlier
-		if (Squirrel.turnedLeft)
-			Squirrel.pilot.rotate(90);
-		else
-			Squirrel.pilot.rotate(-90);
-		
-		// Travel home and turn around
-		Squirrel.pilot.travel(Squirrel.middleDistanceTotal);
-		Squirrel.pilot.rotate(180);
+		// Travel home
+		Squirrel.pilot.travel(-Squirrel.middleDistanceTotal);
 		
 		// Let go of ball
 		Motor.C.rotate(Squirrel.rotateAmount);
