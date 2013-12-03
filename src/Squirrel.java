@@ -11,7 +11,7 @@ public class Squirrel {
 	public static UltrasonicSensor us = new UltrasonicSensor(SensorPort.S2);
 	public static LightSensor ls = new LightSensor(SensorPort.S1);
 	public static int middleDistanceTotal = 0;
-	public static int rotateAmount = 70;
+	public static int rotateAmount = 140;
 	public static int middleDistanceStep = 200;
 	public static int distanceToTravel = 20;
 	public static int distanceToGrab = 10;

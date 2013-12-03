@@ -19,13 +19,24 @@ public class Explore implements Behavior {
 			
 			Squirrel.middleDistanceTotal = Squirrel.middleDistanceTotal + Squirrel.middleDistanceStep;
 			
-			Squirrel.pilot.reset();
+			Motor.A.resetTachoCount();
+			Motor.B.resetTachoCount();
+			
 			Squirrel.pilot.rotate(-90);
-			Squirrel.pilot.reset();
+			
+			Motor.A.resetTachoCount();
+			Motor.B.resetTachoCount();
+			
 			Squirrel.pilot.rotate(90);
-			Squirrel.pilot.reset();
+			
+			Motor.A.resetTachoCount();
+			Motor.B.resetTachoCount();
+			
 			Squirrel.pilot.rotate(90);
-			Squirrel.pilot.reset();
+			
+			Motor.A.resetTachoCount();
+			Motor.B.resetTachoCount();
+			
 			Squirrel.pilot.rotate(-90);
 		}
 	}
