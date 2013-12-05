@@ -11,7 +11,7 @@ public class Squirrel {
 	public static UltrasonicSensor us = new UltrasonicSensor(SensorPort.S2);
 	public static LightSensor ls = new LightSensor(SensorPort.S1);
 	public static int middleDistanceTotal = 0;
-	public static int rotateAmount = 140;
+	public static int rotateAmount = 90;
 	public static int middleDistanceStep = 200;
 	public static int distanceToTravel = 20;
 	public static int distanceToGrab = 10;
@@ -20,6 +20,8 @@ public class Squirrel {
 	public static int tachoRotationB = 0;
 	// public static float distanceMoved = 0;
 	// public static float angleRotated = 0;
+	public static boolean turnedLeft = false;
+	public static boolean suppressed = false;
 	public static boolean notDetected = true;
 	public static boolean hasBall = false;
 	public static boolean returnToExplore = false;
@@ -34,7 +36,7 @@ public class Squirrel {
 		Motor.C.setSpeed(720);
 		
 		// Open gripper
-		// Motor.C.rotate(rotateAmount);
+		Motor.C.rotate(rotateAmount);
 		
 		// Set up behaviours and arbitrator
 		Behavior behaviorExplore = new Explore();

@@ -1,4 +1,3 @@
-import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.robotics.subsumption.Behavior;
 
@@ -12,6 +11,7 @@ public class Detect implements Behavior {
 	}
 	
 	public void action() {
+		Squirrel.suppressed = false;
 		Squirrel.tachoRotationA = Motor.A.getTachoCount();
 		Squirrel.tachoRotationB = Motor.B.getTachoCount();
 		// Squirrel.angleRotated = Squirrel.pilot.getAngleIncrement();
@@ -20,6 +20,7 @@ public class Detect implements Behavior {
 		
 		Motor.A.resetTachoCount();
 		Motor.B.resetTachoCount();
+		
 		Squirrel.pilot.travel(Squirrel.middleDistanceStep, true);
 		
 		while (Motor.A.isMoving()) {

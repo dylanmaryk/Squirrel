@@ -1,4 +1,3 @@
-import lejos.nxt.LCD;
 import lejos.nxt.Motor;
 import lejos.robotics.subsumption.Behavior;
 
@@ -14,30 +13,60 @@ public class Explore implements Behavior {
 		
 		// If not found red ball
 		if (!Squirrel.hasBall) {
-			// Travel further down central branch
-			Squirrel.pilot.travel(Squirrel.middleDistanceStep);
-			
-			Squirrel.middleDistanceTotal = Squirrel.middleDistanceTotal + Squirrel.middleDistanceStep;
-			
-			Motor.A.resetTachoCount();
-			Motor.B.resetTachoCount();
-			
-			Squirrel.pilot.rotate(-90);
-			
-			Motor.A.resetTachoCount();
-			Motor.B.resetTachoCount();
-			
-			Squirrel.pilot.rotate(90);
-			
-			Motor.A.resetTachoCount();
-			Motor.B.resetTachoCount();
-			
-			Squirrel.pilot.rotate(90);
-			
-			Motor.A.resetTachoCount();
-			Motor.B.resetTachoCount();
-			
-			Squirrel.pilot.rotate(-90);
+			if (!Squirrel.turnedLeft) {
+				// Travel further down central branch
+				Squirrel.pilot.travel(Squirrel.middleDistanceStep);
+				
+				Squirrel.middleDistanceTotal = Squirrel.middleDistanceTotal + Squirrel.middleDistanceStep;
+				
+				Motor.A.resetTachoCount();
+				Motor.B.resetTachoCount();
+				
+				if (!Squirrel.suppressed) {
+					Squirrel.turnedLeft = true;
+				}
+				
+				Squirrel.pilot.rotate(-90);
+				
+				if (!Squirrel.suppressed) {
+					Motor.A.resetTachoCount();
+					Motor.B.resetTachoCount();
+				}
+				
+				Squirrel.pilot.rotate(90);
+				
+				if (!Squirrel.suppressed) {
+					Motor.A.resetTachoCount();
+					Motor.B.resetTachoCount();
+					
+					Squirrel.turnedLeft = false;
+				}
+				
+				Squirrel.pilot.rotate(90);
+				
+				if (!Squirrel.suppressed) {
+					Motor.A.resetTachoCount();
+					Motor.B.resetTachoCount();
+				}
+				
+				Squirrel.pilot.rotate(-90);
+			} else {
+				if (!Squirrel.suppressed) {
+					Motor.A.resetTachoCount();
+					Motor.B.resetTachoCount();
+					
+					Squirrel.turnedLeft = false;
+				}
+				
+				Squirrel.pilot.rotate(90);
+				
+				if (!Squirrel.suppressed) {
+					Motor.A.resetTachoCount();
+					Motor.B.resetTachoCount();
+				}
+				
+				Squirrel.pilot.rotate(-90);
+			}
 		}
 	}
 	
@@ -64,6 +93,8 @@ public class Explore implements Behavior {
 	}
 
 	public void suppress() {
+		Squirrel.suppressed = true;
+		
 		// Stop moving
 		Squirrel.pilot.stop();
 	}
