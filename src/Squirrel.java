@@ -11,7 +11,7 @@ public class Squirrel {
 	public static UltrasonicSensor us = new UltrasonicSensor(SensorPort.S2);
 	public static LightSensor ls = new LightSensor(SensorPort.S1);
 	public static int middleDistanceTotal = 0;
-	public static int rotateAmount = 90;
+	public static int rotateAmount = 110;
 	public static int middleDistanceStep = 200;
 	public static int distanceToTravel = 20;
 	public static int distanceToGrab = 10;
@@ -29,8 +29,8 @@ public class Squirrel {
 	
 	public static void main(String[] args) {
 		// Set wheel speeds
-		pilot.setTravelSpeed(50);
-		pilot.setRotateSpeed(50);
+		pilot.setTravelSpeed(100);
+		pilot.setRotateSpeed(100);
 		
 		// Set gripper speed
 		Motor.C.setSpeed(720);

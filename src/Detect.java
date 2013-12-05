@@ -4,7 +4,7 @@ import lejos.robotics.subsumption.Behavior;
 public class Detect implements Behavior {
 	public boolean takeControl() { // Set locatedBall to false near end of action method
 		// If sees something nearby
-		if (Squirrel.us.getDistance() <= 20 && Squirrel.notDetected)
+		if (Squirrel.us.getDistance() <= 40 && Squirrel.notDetected)
 			return true;
 		else
 			return false;
