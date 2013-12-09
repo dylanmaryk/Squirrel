@@ -3,7 +3,7 @@ import lejos.robotics.subsumption.Behavior;
 
 public class Detect implements Behavior {
 	public boolean takeControl() { // Set locatedBall to false near end of action method
-		// If sees something nearby
+		// If sees something nearby and not already investigating a detected object
 		if (Squirrel.us.getDistance() <= 40 && Squirrel.notDetected)
 			return true;
 		else
@@ -12,15 +12,17 @@ public class Detect implements Behavior {
 	
 	public void action() {
 		Squirrel.suppressed = false;
+		// Record tachometer count to "retrace steps" so can rotate by correct number of degrees when returned to central branch
 		Squirrel.tachoRotationA = Motor.A.getTachoCount();
 		Squirrel.tachoRotationB = Motor.B.getTachoCount();
-		// Squirrel.angleRotated = Squirrel.pilot.getAngleIncrement();
 		Squirrel.tachoDistance = 0;
 		Squirrel.notDetected = false;
 		
+		// Reset tachometer count
 		Motor.A.resetTachoCount();
 		Motor.B.resetTachoCount();
 		
+		// Travel towards detected object
 		Squirrel.pilot.travel(Squirrel.middleDistanceStep, true);
 		
 		while (Motor.A.isMoving()) {
@@ -56,9 +58,9 @@ public class Detect implements Behavior {
 			} else
 				Squirrel.returnToExplore = true;
 		}
-		
+
+		// Record tachometer count to "retrace steps" so can reverse correct distance back to central branch
 		Squirrel.tachoDistance = Motor.A.getTachoCount();
-		// Squirrel.distanceMoved = Squirrel.pilot.getMovementIncrement();
 	}
 	
 	public void suppress() {

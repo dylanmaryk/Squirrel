@@ -19,22 +19,26 @@ public class Explore implements Behavior {
 				
 				Squirrel.middleDistanceTotal = Squirrel.middleDistanceTotal + Squirrel.middleDistanceStep;
 				
+				// Reset tachometer count
 				Motor.A.resetTachoCount();
 				Motor.B.resetTachoCount();
 				
+				// If still exploring, record robot has turned left
 				if (!Squirrel.suppressed) {
 					Squirrel.turnedLeft = true;
 				}
 				
 				Squirrel.pilot.rotate(-90);
-				
+
+				// If still exploring, reset tachometer count
 				if (!Squirrel.suppressed) {
 					Motor.A.resetTachoCount();
 					Motor.B.resetTachoCount();
 				}
 				
 				Squirrel.pilot.rotate(90);
-				
+
+				// If still exploring, reset tachometer count and record robot has turned right
 				if (!Squirrel.suppressed) {
 					Motor.A.resetTachoCount();
 					Motor.B.resetTachoCount();
@@ -43,7 +47,8 @@ public class Explore implements Behavior {
 				}
 				
 				Squirrel.pilot.rotate(90);
-				
+
+				// If still exploring, reset tachometer count
 				if (!Squirrel.suppressed) {
 					Motor.A.resetTachoCount();
 					Motor.B.resetTachoCount();
@@ -51,6 +56,7 @@ public class Explore implements Behavior {
 				
 				Squirrel.pilot.rotate(-90);
 			} else {
+				// If still exploring, reset tachometer count and record robot has turned right
 				if (!Squirrel.suppressed) {
 					Motor.A.resetTachoCount();
 					Motor.B.resetTachoCount();
@@ -59,7 +65,8 @@ public class Explore implements Behavior {
 				}
 				
 				Squirrel.pilot.rotate(90);
-				
+
+				// If still exploring, reset tachometer count
 				if (!Squirrel.suppressed) {
 					Motor.A.resetTachoCount();
 					Motor.B.resetTachoCount();
@@ -71,25 +78,10 @@ public class Explore implements Behavior {
 	}
 	
 	private void returnToExplore() {
-		returnToMainPath();
+		Squirrel.returnToMainPath();
 		
 		Squirrel.returnToExplore = false;
 		Squirrel.notDetected = true;
-	}
-	
-	public static void returnToMainPath() {
-		// Go back to main branch
-		Motor.A.rotate(-Squirrel.tachoDistance, true);
-		Motor.B.rotate(-Squirrel.tachoDistance);
-		// Squirrel.pilot.travel(-Squirrel.distanceMoved);
-		
-		Squirrel.pilot.stop();
-		
-		Motor.A.rotate(-Squirrel.tachoRotationA, true);
-		Motor.B.rotate(-Squirrel.tachoRotationB);
-		// Squirrel.pilot.rotate(-Squirrel.angleRotated);
-		
-		Squirrel.pilot.stop();
 	}
 
 	public void suppress() {
