@@ -17,8 +17,7 @@ public class Return implements Behavior {
 		Squirrel.pilot.travel(-Squirrel.middleDistanceTotal);
 		
 		// Let go of ball
-		if (Squirrel.hasBall)
-			Motor.C.rotate(Squirrel.rotateAmount);
+		Motor.C.rotate(Squirrel.rotateAmount);
 		
 		Squirrel.returnHome = false;
 		Squirrel.atHome = true;
