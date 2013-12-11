@@ -13,7 +13,7 @@ public class Squirrel {
 	public static LightSensor ls = new LightSensor(SensorPort.S1);
 	public static TouchSensor ts = new TouchSensor(SensorPort.S3);
 	public static int middleDistanceTotal = 0;
-	public static int rotateAmount = 110;
+	public static int rotateAmount = 130;
 	public static int middleDistanceStep = 200;
 	public static int distanceToTravel = 20;
 	public static int distanceToGrab = 10;
