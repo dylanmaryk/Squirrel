@@ -37,6 +37,7 @@ public class Squirrel {
 		Motor.C.setSpeed(720);
 		
 		// Open gripper
+		Motor.C.rotate(-rotateAmount);
 		Motor.C.rotate(rotateAmount);
 		
 		// Set up behaviours and arbitrator
